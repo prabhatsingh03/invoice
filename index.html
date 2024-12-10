@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice Data Extraction</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <h1>Invoice Data Extraction</h1>
+        <form id="upload-form" enctype="multipart/form-data">
+            <img src="{{ url_for('static', filename='Snackpure.png') }}" alt="Invoice Extraction Banner" class="banner-image">
+            <input type="file" name="pdf_files" multiple accept=".pdf">
+            <button type="button" onclick="uploadFiles()">Upload</button>
+        </form>
+    <div id="message"></div>
+    <script>
+        function uploadFiles() {
+            const form = document.getElementById('upload-form');
+            const formData = new FormData(form);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageDiv = document.getElementById('message');
+                if (data.error) {
+                    messageDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                } else {
+                    messageDiv.innerHTML = `<p style="color: green;">${data.message}</p><a href="/download">Download Processed File</a>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
