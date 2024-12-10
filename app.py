@@ -3,7 +3,7 @@ import fitz  # PyMuPDF
 import pandas as pd
 import os
 import re
-
+const port = process.env.PORT || 4000;
 app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
